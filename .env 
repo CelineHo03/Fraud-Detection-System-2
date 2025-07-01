@@ -1,0 +1,155 @@
+# Fraud Detection System Environment Configuration
+# Copy this file to .env and update the values as needed
+
+# =============================================================================
+# APPLICATION SETTINGS
+# =============================================================================
+APP_NAME=fraud-detection-system
+APP_ENV=development
+DEBUG=true
+
+# =============================================================================
+# MODEL CONFIGURATION
+# =============================================================================
+# Use advanced model with 263 features (recommended)
+USE_ADVANCED_MODEL=true
+MODEL_PATH=models/saved_models/
+MODEL_VERSION=2.0.0
+
+# Model performance settings
+DEFAULT_THRESHOLD=0.5
+HIGH_PRECISION_THRESHOLD=0.7
+HIGH_RECALL_THRESHOLD=0.3
+
+# =============================================================================
+# API CONFIGURATION
+# =============================================================================
+API_HOST=0.0.0.0
+API_PORT=8000
+API_WORKERS=4
+
+# API performance and limits
+MAX_BATCH_SIZE=10000
+TIMEOUT_SECONDS=30
+RATE_LIMIT_PER_MINUTE=1000
+
+# =============================================================================
+# STREAMLIT CONFIGURATION
+# =============================================================================
+# Upload settings
+MAX_UPLOAD_SIZE_MB=200
+
+# Cache settings
+CACHE_TTL=3600
+ENABLE_CACHING=true
+
+# =============================================================================
+# DATA PROCESSING
+# =============================================================================
+# Processing performance
+CHUNK_SIZE=10000
+MEMORY_LIMIT_GB=8.0
+
+# Validation settings
+MIN_REQUIRED_COLUMNS=3
+MAX_MISSING_PERCENTAGE=50.0
+
+# =============================================================================
+# VISUALIZATION SETTINGS
+# =============================================================================
+DEFAULT_THEME=plotly_white
+MAP_STYLE=OpenStreetMap
+CHART_HEIGHT=400
+MAP_HEIGHT=500
+
+# Performance limits for visualizations
+MAX_POINTS_ON_MAP=10000
+SAMPLING_THRESHOLD=50000
+
+# =============================================================================
+# SECURITY & AUTHENTICATION (Optional)
+# =============================================================================
+# Uncomment and set these for production deployment
+# SECRET_KEY=your-secret-key-here-change-in-production
+# API_KEY=your-api-key-here
+# JWT_SECRET=your-jwt-secret-here
+
+# =============================================================================
+# DATABASE CONFIGURATION (Optional)
+# =============================================================================
+# Uncomment if using database for persistent storage
+# DATABASE_URL=postgresql://user:password@localhost:5432/fraud_db
+# DATABASE_POOL_SIZE=10
+
+# =============================================================================
+# REDIS CONFIGURATION (Optional)
+# =============================================================================
+# Uncomment if using Redis for caching
+# REDIS_URL=redis://localhost:6379/0
+# REDIS_TTL=3600
+
+# =============================================================================
+# LOGGING CONFIGURATION
+# =============================================================================
+LOG_LEVEL=INFO
+LOG_FORMAT=json
+ENABLE_FILE_LOGGING=true
+LOG_FILE_PATH=logs/fraud_detection.log
+
+# =============================================================================
+# MONITORING & METRICS (Optional)
+# =============================================================================
+# Uncomment for production monitoring
+# ENABLE_METRICS=true
+# METRICS_PORT=9090
+# HEALTH_CHECK_INTERVAL=30
+
+# =============================================================================
+# EXTERNAL SERVICES (Optional)
+# =============================================================================
+# Email notifications
+# SMTP_HOST=smtp.gmail.com
+# SMTP_PORT=587
+# SMTP_USER=your-email@gmail.com
+# SMTP_PASSWORD=your-app-password
+
+# Slack notifications
+# SLACK_WEBHOOK_URL=https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK
+
+# =============================================================================
+# DEVELOPMENT SETTINGS
+# =============================================================================
+# Set to false in production
+DEVELOPMENT_MODE=true
+ENABLE_DEBUG_LOGGING=true
+RELOAD_ON_CHANGE=true
+
+# Testing settings
+RUN_TESTS_ON_STARTUP=false
+TEST_DATA_PATH=data/test_samples/
+
+# =============================================================================
+# DEPLOYMENT SETTINGS
+# =============================================================================
+# Container settings
+CONTAINER_PORT=8501
+WORKERS_PER_CORE=1.0
+
+# Load balancing
+ENABLE_LOAD_BALANCING=false
+HEALTH_CHECK_PATH=/health
+
+# =============================================================================
+# FEATURE FLAGS
+# =============================================================================
+# Enable/disable specific features
+ENABLE_GEOGRAPHIC_ANALYSIS=true
+ENABLE_BATCH_PROCESSING=true
+ENABLE_REAL_TIME_PREDICTIONS=true
+ENABLE_MODEL_EXPLANATIONS=true
+ENABLE_EXPORT_FUNCTIONALITY=true
+
+# Advanced features
+ENABLE_AUTO_MODEL_UPDATES=false
+ENABLE_A_B_TESTING=false
+ENABLE_ANOMALY_DETECTION=true
