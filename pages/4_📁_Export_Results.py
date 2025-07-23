@@ -41,7 +41,6 @@ except ImportError:
 # Page configuration
 st.set_page_config(
     page_title="Export Reports - Fraud Detection",
-    page_icon="📋",
     layout="wide"
 )
 
@@ -90,7 +89,7 @@ def simple_dataframe_fix(df, max_rows=500, **kwargs):
         original_dataframe(display_df, **kwargs)  # ✅ FIXED: Use original_dataframe
         
         if len(df) > max_rows:
-            st.info(f"📋 Showing first {max_rows:,} of {len(df):,} rows")
+            st.info(f" Showing first {max_rows:,} of {len(df):,} rows")
             
     except Exception as e:
         # Final fallback - create a simple text representation
@@ -103,7 +102,7 @@ def simple_dataframe_fix(df, max_rows=500, **kwargs):
                 fallback_df[col] = fallback_df[col].astype(str)
             # 🔥 ALSO FIX THIS: Use original function here too
             original_dataframe(fallback_df)  # ✅ FIXED: Use original_dataframe
-            st.info(f"📋 Simplified view (3 of {len(df):,} rows)")
+            st.info(f" Simplified view (3 of {len(df):,} rows)")
         except Exception:
             st.error("Unable to display data - please check data format")
 
@@ -599,7 +598,7 @@ def generate_qr_code(data_text):
 def main():
     """Main export reports interface."""
     
-    st.title("📋 Export Reports & Analytics")
+    st.title("Export Reports & Analytics")
     st.markdown("Generate professional reports, automate delivery, and share insights")
     
     # Check if we have data to export
@@ -621,7 +620,7 @@ def main():
     
     # Enhanced export interface
     tab1, tab2, tab3, tab4 = st.tabs([
-        "📊 Professional Reports", "💾 Data Export", "📱 Sharing", "🤖 Automation"
+        "Professional Reports", "Data Export", "Sharing", "Automation"
     ])
     
     with tab1:
@@ -654,7 +653,7 @@ def show_no_data_message():
     
     st.markdown("""
     <div style="text-align: center; padding: 3rem; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); border-radius: 10px; margin: 2rem 0;">
-        <h2 style="color: #2c3e50;">🔍 No Analysis Data Available</h2>
+        <h2 style="color: #2c3e50;">No Analysis Data Available</h2>
         <p style="color: #7f8c8d; font-size: 1.1rem;">
             Please upload and analyze a dataset first to access the export functionality.
         </p>
@@ -663,14 +662,14 @@ def show_no_data_message():
     
     col1, col2, col3 = st.columns([1, 1, 1])
     with col2:
-        if st.button("📁 Upload Dataset", use_container_width=True):
+        if st.button("Upload Dataset", use_container_width=True):
             st.switch_page("pages/1_🔍_Upload_and_Analyze.py")
 
 def show_professional_reports(predictions, fraud_probs, risk_scores, fraud_predictions, 
                             dataset_name, original_data, adaptation_result):
     """Show professional report generation options."""
     
-    st.markdown("### 📊 Professional Report Generation")
+    st.markdown("### Professional Report Generation")
     
     # Calculate key metrics
     total_transactions = len(predictions)
@@ -684,13 +683,13 @@ def show_professional_reports(predictions, fraud_probs, risk_scores, fraud_predi
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
-        st.metric("📊 Total Transactions", f"{total_transactions:,}")
+        st.metric("Total Transactions", f"{total_transactions:,}")
     with col2:
-        st.metric("🚨 Fraud Detected", fraud_count, delta=f"{fraud_rate:.1%}")
+        st.metric("Fraud Detected", fraud_count, delta=f"{fraud_rate:.1%}")
     with col3:
-        st.metric("⚡ Avg Risk Score", f"{avg_risk:.0f}/100")
+        st.metric("Avg Risk Score", f"{avg_risk:.0f}/100")
     with col4:
-        st.metric("🎯 Overall Risk", risk_level)
+        st.metric("Overall Risk", risk_level)
     
     st.markdown("---")
     
@@ -698,7 +697,7 @@ def show_professional_reports(predictions, fraud_probs, risk_scores, fraud_predi
     col1, col2 = st.columns([2, 1])
     
     with col1:
-        st.markdown("#### 📋 Report Templates")
+        st.markdown("#### Report Templates")
         
         selected_template = st.selectbox(
             "Choose Report Template:",
@@ -717,24 +716,24 @@ def show_professional_reports(predictions, fraud_probs, risk_scores, fraud_predi
         st.info(template_descriptions[selected_template])
     
     with col2:
-        st.markdown("#### ⚙️ Report Options")
+        st.markdown("#### Report Options")
         
-        include_charts = st.checkbox("📈 Include Visualizations", value=True)
-        include_raw_data = st.checkbox("📊 Include Raw Data", value=False)
-        include_methodology = st.checkbox("🔬 Include Methodology", value=True)
+        include_charts = st.checkbox("Include Visualizations", value=True)
+        include_raw_data = st.checkbox("Include Raw Data", value=False)
+        include_methodology = st.checkbox("Include Methodology", value=True)
         
         # Advanced options
-        with st.expander("🔧 Advanced Options"):
+        with st.expander("Advanced Options"):
             risk_threshold = st.slider("Risk Threshold", 0, 100, 70)
             max_transactions = st.number_input("Max Transactions", 100, 10000, 1000)
     
     # Generate reports
-    st.markdown("#### 🚀 Generate Reports")
+    st.markdown("#### Generate Reports")
     
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        if st.button("📄 Generate PDF Report", use_container_width=True):
+        if st.button("Generate PDF Report", use_container_width=True):
             with st.spinner("Generating professional PDF report..."):
                 try:
                     insights = generate_executive_insights(fraud_rate, avg_risk, high_risk_count, total_transactions)
@@ -746,7 +745,7 @@ def show_professional_reports(predictions, fraud_probs, risk_scores, fraud_predi
                     )
                     
                     st.download_button(
-                        label="📥 Download PDF Report",
+                        label="Download PDF Report",
                         data=pdf_content,
                         file_name=f"{selected_template.lower().replace(' ', '_')}_{dataset_name}_{datetime.now().strftime('%Y%m%d')}.pdf",
                         mime="application/pdf",
@@ -756,12 +755,12 @@ def show_professional_reports(predictions, fraud_probs, risk_scores, fraud_predi
                     st.success("✅ PDF report generated successfully!")
                     
                 except Exception as e:
-                    st.error(f"❌ Error generating PDF: {e}")
+                    st.error(f" Error generating PDF: {e}")
                     if not REPORTLAB_AVAILABLE:
-                        st.info("💡 Install reportlab for enhanced PDF features: `pip install reportlab`")
+                        st.info(" Install reportlab for enhanced PDF features: `pip install reportlab`")
     
     with col2:
-        if st.button("📊 Generate Excel Report", use_container_width=True):
+        if st.button("Generate Excel Report", use_container_width=True):
             with st.spinner("Creating comprehensive Excel workbook..."):
                 try:
                     excel_content = create_enhanced_excel_report(
@@ -770,7 +769,7 @@ def show_professional_reports(predictions, fraud_probs, risk_scores, fraud_predi
                     )
                     
                     st.download_button(
-                        label="📥 Download Excel Report",
+                        label="Download Excel Report",
                         data=excel_content,
                         file_name=f"{selected_template.lower().replace(' ', '_')}_{dataset_name}_{datetime.now().strftime('%Y%m%d')}.xlsx",
                         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -780,10 +779,10 @@ def show_professional_reports(predictions, fraud_probs, risk_scores, fraud_predi
                     st.success("✅ Excel report generated successfully!")
                     
                 except Exception as e:
-                    st.error(f"❌ Error generating Excel: {e}")
+                    st.error(f"Error generating Excel: {e}")
     
     with col3:
-        if st.button("📦 Complete Package", use_container_width=True):
+        if st.button("Complete Package", use_container_width=True):
             with st.spinner("Creating comprehensive report package..."):
                 try:
                     package_content = create_comprehensive_report_package(
@@ -792,7 +791,7 @@ def show_professional_reports(predictions, fraud_probs, risk_scores, fraud_predi
                     )
                     
                     st.download_button(
-                        label="📥 Download Package (ZIP)",
+                        label="Download Package (ZIP)",
                         data=package_content,
                         file_name=f"fraud_analysis_package_{dataset_name}_{datetime.now().strftime('%Y%m%d')}.zip",
                         mime="application/zip",
@@ -800,15 +799,15 @@ def show_professional_reports(predictions, fraud_probs, risk_scores, fraud_predi
                     )
                     
                     st.success("✅ Complete report package generated!")
-                    st.info("📦 Package includes: PDF, Excel, CSV, JSON, and documentation")
+                    st.info("Package includes: PDF, Excel, CSV, JSON, and documentation")
                     
                 except Exception as e:
-                    st.error(f"❌ Error creating package: {e}")
+                    st.error(f"Error creating package: {e}")
 
 def show_enhanced_data_export(predictions, fraud_probs, risk_scores, fraud_predictions, original_data):
     """Show enhanced data export options."""
     
-    st.markdown("### 💾 Enhanced Data Export")
+    st.markdown("### Enhanced Data Export")
     
     # Prepare export dataset
     export_df = original_data.copy()
@@ -849,7 +848,7 @@ def show_enhanced_data_export(predictions, fraud_probs, risk_scores, fraud_predi
         filtered_df = filtered_df[filtered_df['Fraud_Prediction'] == 0]
     
     # Export preview
-    st.markdown(f"#### 👀 Export Preview ({len(filtered_df):,} transactions)")
+    st.markdown(f"#### Export Preview ({len(filtered_df):,} transactions)")
     
     col1, col2, col3 = st.columns(3)
     with col1:
@@ -861,15 +860,15 @@ def show_enhanced_data_export(predictions, fraud_probs, risk_scores, fraud_predi
         st.metric("Est. Size", f"{estimated_size:.1f} MB")
     
     # Export buttons
-    st.markdown("#### 🚀 Export Data")
+    st.markdown("#### Export Data")
     
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
-        if st.button("📄 Export CSV", use_container_width=True):
+        if st.button("Export CSV", use_container_width=True):
             csv_data = filtered_df.to_csv(index=False)
             st.download_button(
-                "📥 Download CSV",
+                "Download CSV",
                 csv_data,
                 f"fraud_export_{export_scope.lower().replace(' ', '_')}_{datetime.now().strftime('%Y%m%d')}.csv",
                 "text/csv",
@@ -877,14 +876,14 @@ def show_enhanced_data_export(predictions, fraud_probs, risk_scores, fraud_predi
             )
     
     with col2:
-        if st.button("📊 Export Excel", use_container_width=True):
+        if st.button("Export Excel", use_container_width=True):
             buffer = io.BytesIO()
             with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
                 filtered_df.to_excel(writer, sheet_name='Export Data', index=False)
             buffer.seek(0)
             
             st.download_button(
-                "📥 Download Excel",
+                "Download Excel",
                 buffer.getvalue(),
                 f"fraud_export_{export_scope.lower().replace(' ', '_')}_{datetime.now().strftime('%Y%m%d')}.xlsx",
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -892,10 +891,10 @@ def show_enhanced_data_export(predictions, fraud_probs, risk_scores, fraud_predi
             )
     
     with col3:
-        if st.button("📄 Export JSON", use_container_width=True):
+        if st.button("Export JSON", use_container_width=True):
             json_data = filtered_df.to_json(orient='records', indent=2)
             st.download_button(
-                "📥 Download JSON",
+                "Download JSON",
                 json_data,
                 f"fraud_export_{export_scope.lower().replace(' ', '_')}_{datetime.now().strftime('%Y%m%d')}.json",
                 "application/json",
@@ -903,7 +902,7 @@ def show_enhanced_data_export(predictions, fraud_probs, risk_scores, fraud_predi
             )
     
     with col4:
-        if st.button("📦 Export All", use_container_width=True):
+        if st.button("Export All", use_container_width=True):
             # Create ZIP with multiple formats
             zip_buffer = io.BytesIO()
             with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
@@ -929,7 +928,7 @@ Total Columns: {filtered_df.shape[1]}
             zip_buffer.seek(0)
             
             st.download_button(
-                "📥 Download ZIP Package",
+                "Download ZIP Package",
                 zip_buffer.getvalue(),
                 f"fraud_export_package_{datetime.now().strftime('%Y%m%d')}.zip",
                 "application/zip",
@@ -939,33 +938,33 @@ Total Columns: {filtered_df.shape[1]}
 def show_enhanced_sharing(predictions, fraud_probs, risk_scores, fraud_predictions, dataset_name):
     """Show enhanced sharing and collaboration features."""
     
-    st.markdown("### 📱 Enhanced Sharing & Collaboration")
+    st.markdown("###Enhanced Sharing & Collaboration")
     
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown("#### 🔗 Quick Share")
+        st.markdown("#### Quick Share")
         
         # Generate shareable summary
         summary_text = f"""
 🔍 Fraud Detection Analysis Results
 
 Dataset: {dataset_name}
-📊 Total Transactions: {len(predictions):,}
-🚨 Fraud Detected: {sum(fraud_predictions)} ({sum(fraud_predictions)/len(predictions):.1%})
-⚡ Average Risk Score: {np.mean(risk_scores):.0f}/100
-📅 Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}
+Total Transactions: {len(predictions):,}
+Fraud Detected: {sum(fraud_predictions)} ({sum(fraud_predictions)/len(predictions):.1%})
+Average Risk Score: {np.mean(risk_scores):.0f}/100
+Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}
 
 Powered by Universal Fraud Detection System
         """.strip()
         
         st.text_area("Share Summary:", summary_text, height=150)
         
-        if st.button("📋 Copy Summary", use_container_width=True):
-            st.success("✅ Summary copied to clipboard!")
+        if st.button("Copy Summary", use_container_width=True):
+            st.success("Summary copied to clipboard!")
         
         # QR Code generation
-        if st.button("📱 Generate QR Code", use_container_width=True):
+        if st.button("Generate QR Code", use_container_width=True):
             if QRCODE_AVAILABLE:
                 try:
                     qr_data = generate_qr_code(summary_text)
@@ -973,19 +972,19 @@ Powered by Universal Fraud Detection System
                         st.image(qr_data, caption="QR Code for Analysis Summary", width=200)
                         
                         st.download_button(
-                            "📥 Download QR Code",
+                            "Download QR Code",
                             qr_data,
                             f"fraud_analysis_qr_{datetime.now().strftime('%Y%m%d')}.png",
                             "image/png"
                         )
                 except Exception as e:
-                    st.error(f"❌ Error generating QR code: {e}")
+                    st.error(f"Error generating QR code: {e}")
             else:
-                st.error("❌ QR code generation not available")
-                st.info("💡 Install qrcode library: `pip install qrcode[pil]`")
+                st.error("QR code generation not available")
+                st.info("Install qrcode library: `pip install qrcode[pil]`")
     
     with col2:
-        st.markdown("#### 📧 Email Integration")
+        st.markdown("#### Email Integration")
         
         recipient_email = st.text_input("Recipient Email(s):", placeholder="colleague@company.com")
         email_subject = st.text_input("Subject:", value=f"Fraud Analysis Results - {dataset_name}")
@@ -1011,10 +1010,10 @@ Fraud Detection Team
         else:
             email_body = st.text_area("Email Body:", height=100)
         
-        if st.button("📧 Prepare Email", use_container_width=True):
+        if st.button("Prepare Email", use_container_width=True):
             st.success("✅ Email prepared!")
             
-            with st.expander("📧 Email Preview"):
+            with st.expander("Email Preview"):
                 st.markdown(f"""
                 **To:** {recipient_email}  
                 **Subject:** {email_subject}  
@@ -1028,10 +1027,10 @@ Fraud Detection Team
 def show_automation_features():
     """Show automation and scheduling features."""
     
-    st.markdown("### 🤖 Automation & Scheduling")
+    st.markdown("### Automation & Scheduling")
     
     # Automated report scheduling
-    st.markdown("#### 📅 Automated Report Scheduling")
+    st.markdown("#### Automated Report Scheduling")
     
     col1, col2 = st.columns(2)
     
@@ -1049,7 +1048,7 @@ def show_automation_features():
         
         risk_threshold_auto = st.slider("Alert Threshold:", 0, 100, 70)
         
-        if st.button("📅 Schedule Reports", use_container_width=True):
+        if st.button("Schedule Reports", use_container_width=True):
             st.success(f"""
             ✅ **Reports Scheduled Successfully!**
             
@@ -1060,7 +1059,7 @@ def show_automation_features():
             """)
     
     # API Integration
-    st.markdown("#### 🔌 API Integration")
+    st.markdown("####  API Integration")
     
     col1, col2 = st.columns(2)
     
@@ -1082,7 +1081,7 @@ def show_automation_features():
                 if api_endpoint and api_key:
                     st.success("✅ API connection successful!")
                 else:
-                    st.error("❌ Please provide endpoint and key")
+                    st.error("Please provide endpoint and key")
 
 if __name__ == "__main__":
     main()

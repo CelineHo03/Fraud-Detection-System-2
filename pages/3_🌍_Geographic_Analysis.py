@@ -50,7 +50,7 @@ def simple_dataframe_fix(df, max_rows=500, **kwargs):
         original_dataframe(display_df, **kwargs)
         
         if len(df) > max_rows:
-            st.info(f"📋 Showing first {max_rows:,} of {len(df):,} rows")
+            st.info(f" Showing first {max_rows:,} of {len(df):,} rows")
             
     except Exception as e:
         st.warning(f"Display issue resolved with simplified view: {str(e)[:50]}...")
@@ -59,7 +59,7 @@ def simple_dataframe_fix(df, max_rows=500, **kwargs):
             for col in fallback_df.columns:
                 fallback_df[col] = fallback_df[col].astype(str)
             original_dataframe(fallback_df)
-            st.info(f"📋 Simplified view (3 of {len(df):,} rows)")
+            st.info(f"Simplified view (3 of {len(df):,} rows)")
         except Exception:
             st.error("Unable to display data - please check data format")
 
@@ -193,7 +193,7 @@ MAJOR_US_CITIES = {
 def main():
     """Main geographic analysis interface."""
     
-    st.title("🌍 City-Level Fraud Analysis")
+    st.title("City-Level Fraud Analysis")
     st.markdown("Discover fraud patterns across major US cities and metropolitan areas")
     
     # Check if we have data to analyze
@@ -214,7 +214,7 @@ def main():
     
     # Geographic analysis tabs
     tab1, tab2, tab3, tab4, tab5 = st.tabs([
-        "🗺️ City Heatmap", "🏙️ Metropolitan Areas", "📊 City Rankings", "🎯 Hotspot Analysis", "📈 Urban Insights"
+        " City Heatmap", "Metropolitan Areas", "City Rankings", " Hotspot Analysis", "Urban Insights"
     ])
     
     with tab1:
@@ -241,14 +241,14 @@ def check_data_availability():
 def show_no_data_message():
     """Show message when no data is available."""
     st.info("""
-    🔍 **No analysis data available**
+     **No analysis data available**
     
     Please upload and analyze a dataset first to view geographic patterns.
     """)
     
     col1, col2, col3 = st.columns([1, 1, 1])
     with col2:
-        if st.button("📁 Upload Dataset", use_container_width=True):
+        if st.button("Upload Dataset", use_container_width=True):
             st.switch_page("pages/1_🔍_Upload_and_Analyze.py")
 
 def generate_city_fraud_data(predictions, fraud_probs, risk_scores, fraud_predictions):
@@ -339,34 +339,34 @@ def calculate_city_statistics(transaction_df):
 def show_city_fraud_heatmap(predictions, fraud_probs, risk_scores, fraud_predictions, original_data):
     """Show interactive city-level fraud heatmap."""
     
-    st.markdown("### 🗺️ US Cities Fraud Heatmap")
+    st.markdown("### US Cities Fraud Heatmap")
     
     # Generate city data
     transaction_df = generate_city_fraud_data(predictions, fraud_probs, risk_scores, fraud_predictions)
     city_stats = calculate_city_statistics(transaction_df)
     metric_options = {
         "fraud_count": {
-            "name": "🚨 Total Fraud Cases",
+            "name": "Total Fraud Cases",
             "description": "Raw number of fraudulent transactions detected",
             "best_for": "Identifying cities with highest fraud volume"
         },
         "fraud_rate": {
-            "name": "📈 Fraud Rate (%)",
+            "name": "Fraud Rate (%)",
             "description": "Percentage of transactions that are fraudulent",
             "best_for": "Comparing fraud intensity across cities"
         },
         "avg_risk_score": {
-            "name": "⚡ Average Risk Score", 
+            "name": "Average Risk Score", 
             "description": "Mean risk score (0-100) for all transactions",
             "best_for": "Overall risk assessment of cities"
         },
         "total_transactions": {
-            "name": "📊 Total Transactions",
+            "name": "Total Transactions",
             "description": "Total transaction volume in the city",
             "best_for": "Understanding transaction activity levels"
         },
         "high_risk_count": {
-            "name": "🎯 High Risk Cases",
+            "name": "High Risk Cases",
             "description": "Number of transactions with risk score >70",
             "best_for": "Identifying high-risk transaction clusters"
         }
@@ -424,10 +424,10 @@ def show_city_fraud_heatmap(predictions, fraud_probs, risk_scores, fraud_predict
         filtered_stats = filtered_stats[filtered_stats['tier'] == selected_tier]
         
         tier_count = len(filtered_stats)
-        if st.checkbox("🔍 Show Tier Filter Debug", value=False):
+        if st.checkbox("Show Tier Filter Debug", value=False):
             st.write(f"After tier filter ({city_tier_filter}): {tier_count} cities (was {original_count})")
             if tier_count == 0:
-                st.error(f"❌ No cities found for tier {selected_tier}")
+                st.error(f"No cities found for tier {selected_tier}")
                 st.write("Available tiers in data:", city_stats['tier'].value_counts())
     
     # Step 2: Apply region filter  
@@ -510,7 +510,7 @@ def create_city_heatmap(city_stats, metric):
     # 🗺️ ENHANCED LAYOUT
     fig.update_layout(
         title=dict(
-            text=f"🌍 US Cities Fraud Analysis - {metric.replace('_', ' ').title()}<br>" +
+            text=f"US Cities Fraud Analysis - {metric.replace('_', ' ').title()}<br>" +
                  f"<span style='font-size:12px;color:gray'>Bubble Size: {metric.replace('_', ' ').title()} | Color: Risk Score</span>",
             x=0.5,
             font=dict(size=16)
@@ -521,7 +521,7 @@ def create_city_heatmap(city_stats, metric):
             zoom=3.5
         ),
         coloraxis_colorbar=dict(
-            title="🎯 Risk Score",
+            title="Risk Score",
             titleside="right",
             tickmode="linear",
             tick0=0,
@@ -537,7 +537,7 @@ def create_city_heatmap(city_stats, metric):
     fig.add_annotation(
         x=0.02, y=0.98,
         xref="paper", yref="paper",
-        text="<b>🎯 Risk Levels</b><br>" +
+        text="<b>Risk Levels</b><br>" +
              "🔴 Red: High Risk (60+)<br>" +
              "🟡 Yellow: Medium Risk (40-59)<br>" +
              "🟢 Green: Low Risk (0-39)<br><br>" +
@@ -576,27 +576,27 @@ def show_enhanced_summary(filtered_stats, heatmap_metric):
     col1, col2, col3, col4, col5 = st.columns(5)
     
     with col1:
-        st.metric("🏙️ Cities Analyzed", len(filtered_stats))
+        st.metric("Cities Analyzed", len(filtered_stats))
     
     with col2:
         total_fraud = filtered_stats['fraud_count'].sum()
-        st.metric("🚨 Total Fraud Cases", f"{total_fraud:,}")
+        st.metric("Total Fraud Cases", f"{total_fraud:,}")
     
     with col3:
         avg_fraud_rate = filtered_stats['fraud_rate'].mean()
-        st.metric("📈 Avg Fraud Rate", f"{avg_fraud_rate:.2%}")
+        st.metric("Avg Fraud Rate", f"{avg_fraud_rate:.2%}")
     
     with col4:
         if len(filtered_stats) > 0:
             highest_risk_city = filtered_stats.loc[filtered_stats['avg_risk_score'].idxmax(), 'city']
-            st.metric("⚡ Highest Risk City", highest_risk_city)
+            st.metric("Highest Risk City", highest_risk_city)
     
     with col5:
         critical_cities = (filtered_stats['avg_risk_score'] >= 70).sum()
-        st.metric("🔴 Critical Risk Cities", critical_cities)
+        st.metric("Critical Risk Cities", critical_cities)
     
     # Key insights
-    st.markdown("#### 💡 Key Insights")
+    st.markdown("#### Key Insights")
     
     if len(filtered_stats) > 0:
         # Top performers
@@ -607,7 +607,7 @@ def show_enhanced_summary(filtered_stats, heatmap_metric):
         
         with col1:
             st.success(f"""
-            **🏆 Highest {heatmap_metric.replace('_', ' ').title()}:**
+            **Highest {heatmap_metric.replace('_', ' ').title()}:**
             - **{highest_metric_city['city']}, {highest_metric_city['state']}**
             - Value: {highest_metric_city[heatmap_metric]:.2f}
             - Risk Level: {highest_metric_city['risk_level']}
@@ -615,7 +615,7 @@ def show_enhanced_summary(filtered_stats, heatmap_metric):
         
         with col2:
             st.info(f"""
-            **🛡️ Safest City (Lowest Risk):**
+            **Safest City (Lowest Risk):**
             - **{lowest_risk_city['city']}, {lowest_risk_city['state']}**
             - Risk Score: {lowest_risk_city['avg_risk_score']:.1f}
             - Fraud Rate: {lowest_risk_city['fraud_rate']:.2%}
@@ -625,7 +625,7 @@ def show_enhanced_summary(filtered_stats, heatmap_metric):
 def show_metropolitan_analysis(predictions, fraud_probs, risk_scores, fraud_predictions, original_data):
     """Show metropolitan area analysis."""
     
-    st.markdown("### 🏙️ Metropolitan Area Analysis")
+    st.markdown("### Metropolitan Area Analysis")
     
     # Generate city data
     transaction_df = generate_city_fraud_data(predictions, fraud_probs, risk_scores, fraud_predictions)
@@ -709,7 +709,7 @@ def show_metropolitan_analysis(predictions, fraud_probs, risk_scores, fraud_pred
         st.plotly_chart(fig, use_container_width=True)
     
     # Metro area comparison table
-    st.markdown("#### 📋 Metropolitan Area Statistics")
+    st.markdown("#### Metropolitan Area Statistics")
     
     display_metro = metro_df.copy()
     display_metro['fraud_rate'] = display_metro['fraud_rate'].apply(lambda x: f"{x:.2%}")
@@ -729,7 +729,7 @@ def show_metropolitan_analysis(predictions, fraud_probs, risk_scores, fraud_pred
     )
     
     # Population vs fraud analysis
-    st.markdown("#### 📈 Population vs Fraud Analysis")
+    st.markdown("#### Population vs Fraud Analysis")
     
     if len(metro_df) > 0:
         fig = px.scatter(
@@ -755,7 +755,7 @@ def show_metropolitan_analysis(predictions, fraud_probs, risk_scores, fraud_pred
 def show_city_rankings(predictions, fraud_probs, risk_scores, fraud_predictions, original_data):
     """Show detailed city rankings and comparisons."""
     
-    st.markdown("### 📊 City Rankings & Comparisons")
+    st.markdown("### City Rankings & Comparisons")
     
     # Generate city data
     transaction_df = generate_city_fraud_data(predictions, fraud_probs, risk_scores, fraud_predictions)
@@ -792,9 +792,9 @@ def show_city_rankings(predictions, fraud_probs, risk_scores, fraud_predictions,
         simple_dataframe_fix(low_risk_cities, use_container_width=True)
     
     # Different ranking perspectives
-    st.markdown("#### 📈 Multi-Perspective Rankings")
+    st.markdown("#### Multi-Perspective Rankings")
     
-    ranking_tabs = st.tabs(["🎯 By Fraud Rate", "📊 By Volume", "👥 Per Capita", "💰 By Risk Score"])
+    ranking_tabs = st.tabs(["By Fraud Rate", "By Volume", "By Risk Score"])
     
     with ranking_tabs[0]:
         fraud_rate_ranking = ranked_cities.nlargest(20, 'fraud_rate')[
@@ -810,7 +810,7 @@ def show_city_rankings(predictions, fraud_probs, risk_scores, fraud_predictions,
         volume_ranking['fraud_rate'] = volume_ranking['fraud_rate'].apply(lambda x: f"{x:.2%}")
         simple_dataframe_fix(volume_ranking, use_container_width=True)
     
-    with ranking_tabs[3]:
+    with ranking_tabs[2]:
         risk_ranking = ranked_cities.nlargest(20, 'avg_risk_score')[
             ['city', 'state', 'avg_risk_score', 'fraud_count', 'fraud_rate', 'total_transactions']
         ].copy()
@@ -819,7 +819,7 @@ def show_city_rankings(predictions, fraud_probs, risk_scores, fraud_predictions,
         simple_dataframe_fix(risk_ranking, use_container_width=True)
     
     # City comparison tool
-    st.markdown("#### 🔍 City Comparison Tool")
+    st.markdown("#### City Comparison Tool")
     
     # Select cities to compare
     available_cities = ranked_cities['city'].tolist()
@@ -868,7 +868,7 @@ def show_city_rankings(predictions, fraud_probs, risk_scores, fraud_predictions,
 def show_hotspot_analysis(predictions, fraud_probs, risk_scores, fraud_predictions, original_data):
     """Show fraud hotspot detection and analysis."""
     
-    st.markdown("### 🎯 Fraud Hotspot Detection")
+    st.markdown("### Fraud Hotspot Detection")
     
     # Generate city data
     transaction_df = generate_city_fraud_data(predictions, fraud_probs, risk_scores, fraud_predictions)
@@ -922,7 +922,7 @@ def show_hotspot_analysis(predictions, fraud_probs, risk_scores, fraud_predictio
     hotspots = hotspots.sort_values('hotspot_score', ascending=False)
     
     if len(hotspots) > 0:
-        st.markdown(f"#### 🔥 Detected {len(hotspots)} Fraud Hotspots")
+        st.markdown(f"#### Detected {len(hotspots)} Fraud Hotspots")
         
         # Hotspot map
         fig = go.Figure()
@@ -978,7 +978,7 @@ def show_hotspot_analysis(predictions, fraud_probs, risk_scores, fraud_predictio
         st.plotly_chart(fig, use_container_width=True)
         
         # Hotspot details
-        st.markdown("#### 📋 Hotspot Analysis")
+        st.markdown("#### Hotspot Analysis")
         
         col1, col2 = st.columns(2)
         
@@ -1006,7 +1006,7 @@ def show_hotspot_analysis(predictions, fraud_probs, risk_scores, fraud_predictio
             st.metric("Most Severe Hotspot", f"{hotspots.iloc[0]['city']}, {hotspots.iloc[0]['state']}")
         
         # Regional hotspot distribution
-        st.markdown("#### 🌎 Regional Hotspot Distribution")
+        st.markdown("#### Regional Hotspot Distribution")
         
         hotspot_by_region = hotspots.groupby('region').agg({
             'city': 'count',
@@ -1028,7 +1028,7 @@ def show_hotspot_analysis(predictions, fraud_probs, risk_scores, fraud_predictio
         
     else:
         st.info(f"""
-        🔍 **No fraud hotspots detected with current criteria:**
+        **No fraud hotspots detected with current criteria:**
         
         - Fraud Rate: ≥ {hotspot_threshold}%
         - Risk Score: ≥ {risk_threshold}
@@ -1040,14 +1040,14 @@ def show_hotspot_analysis(predictions, fraud_probs, risk_scores, fraud_predictio
 def show_urban_insights(predictions, fraud_probs, risk_scores, fraud_predictions, original_data):
     """Show urban fraud insights and patterns."""
     
-    st.markdown("### 📈 Urban Fraud Insights")
+    st.markdown("### Urban Fraud Insights")
     
     # Generate city data
     transaction_df = generate_city_fraud_data(predictions, fraud_probs, risk_scores, fraud_predictions)
     city_stats = calculate_city_statistics(transaction_df)
     
     # Urban patterns analysis
-    st.markdown("#### 🏙️ City Size vs Fraud Patterns")
+    st.markdown("#### City Size vs Fraud Patterns")
     
     # Analyze by city tier
     tier_analysis = city_stats.groupby('tier').agg({
@@ -1098,7 +1098,7 @@ def show_urban_insights(predictions, fraud_probs, risk_scores, fraud_predictions
         st.plotly_chart(fig, use_container_width=True)
     
     # Population density analysis
-    st.markdown("#### 👥 Population Density vs Fraud Risk")
+    st.markdown("#### Population Density vs Fraud Risk")
     
     # Create population density categories
     city_stats['pop_category'] = pd.cut(
@@ -1137,7 +1137,7 @@ def show_urban_insights(predictions, fraud_probs, risk_scores, fraud_predictions
     st.plotly_chart(fig, use_container_width=True)
     
     # Regional insights
-    st.markdown("#### 🌎 Regional Urban Patterns")
+    st.markdown("#### Regional Urban Patterns")
     
     regional_insights = city_stats.groupby('region').agg({
         'city': 'count',
@@ -1166,7 +1166,7 @@ def show_urban_insights(predictions, fraud_probs, risk_scores, fraud_predictions
     st.plotly_chart(fig, use_container_width=True)
     
     # Key insights
-    st.markdown("#### 💡 Key Urban Fraud Insights")
+    st.markdown("#### Key Urban Fraud Insights")
     
     # Calculate key insights
     highest_fraud_city = city_stats.loc[city_stats['fraud_rate'].idxmax()]
@@ -1195,7 +1195,7 @@ def show_urban_insights(predictions, fraud_probs, risk_scores, fraud_predictions
     
     with col3:
         st.markdown(f"""
-        **📊 Transaction Hub:**
+        **Transaction Hub:**
         - **{highest_volume_city['city']}, {highest_volume_city['state']}**
         - Transactions: {highest_volume_city['total_transactions']:,}
         - Fraud Rate: {highest_volume_city['fraud_rate']:.2%}
@@ -1203,7 +1203,7 @@ def show_urban_insights(predictions, fraud_probs, risk_scores, fraud_predictions
         """)
     
     # Summary statistics table
-    st.markdown("#### 📋 Regional Summary Table")
+    st.markdown("#### Regional Summary Table")
     
     display_regional = regional_insights.copy()
     display_regional['Avg_Fraud_Rate'] = display_regional['Avg_Fraud_Rate'].apply(lambda x: f"{x:.2%}")

@@ -70,7 +70,7 @@ def simple_dataframe_fix(df, max_rows=500, **kwargs):
             fallback_df = df.head(3).copy()
             for col in fallback_df.columns:
                 fallback_df[col] = fallback_df[col].astype(str)
-            # 🔥 ALSO FIX THIS: Use original function here too
+            # ALSO FIX THIS: Use original function here too
             original_dataframe(fallback_df)  # ✅ FIXED: Use original_dataframe
             st.info(f"📋 Simplified view (3 of {len(df):,} rows)")
         except Exception:
@@ -89,7 +89,7 @@ st.set_page_config(
 def main():
     """Main analytics dashboard interface."""
     
-    st.title("📊 Analytics Dashboard")
+    st.title(" Analytics Dashboard")
     st.markdown("Comprehensive fraud analysis and business insights")
     
     # Check if we have data to analyze
@@ -113,7 +113,7 @@ def main():
     
     # Main dashboard content
     tab1, tab2, tab3, tab4, tab5 = st.tabs([
-        "📈 Overview", "🎯 Risk Analysis", "📊 Patterns", "⚡ Performance", "🔍 Deep Dive"
+        " Overview", " Risk Analysis",  "Patterns", "⚡ Performance", " Deep Dive"
     ])
     
     with tab1:
@@ -142,7 +142,7 @@ def show_no_data_message():
     """Show message when no data is available."""
     
     st.info("""
-    🔍 **No analysis data available**
+     **No analysis data available**
     
     Please upload and analyze a dataset first to view the analytics dashboard.
     """)
@@ -150,7 +150,7 @@ def show_no_data_message():
     col1, col2, col3 = st.columns([1, 1, 1])
     
     with col2:
-        if st.button("📁 Upload Dataset", use_container_width=True):
+        if st.button(" Upload Dataset", use_container_width=True):
             st.switch_page("pages/1_🔍_Upload_and_Analyze.py")
 
 def show_dashboard_header(predictions, fraud_probs, risk_scores, fraud_predictions, dataset_name):
@@ -173,7 +173,7 @@ def show_dashboard_header(predictions, fraud_probs, risk_scores, fraud_predictio
         margin-bottom: 2rem;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     ">
-        <h2 style="margin: 0; font-size: 1.8rem;">🎯 Fraud Analysis: {dataset_name}</h2>
+        <h2 style="margin: 0; font-size: 1.8rem;"> Fraud Analysis: {dataset_name}</h2>
         <p style="margin: 0.5rem 0 0 0; opacity: 0.9;">
             Analyzed {total_transactions:,} transactions • 
             Generated {datetime.now().strftime('%Y-%m-%d at %H:%M')}
@@ -221,14 +221,14 @@ def show_dashboard_header(predictions, fraud_probs, risk_scores, fraud_predictio
         confidence_score = 95  # This would come from model metadata
         st.metric(
             "Model Confidence",
-            f"📊 {confidence_score}%",
+            f" {confidence_score}%",
             help="Overall model prediction confidence"
         )
 
 def show_overview_dashboard(predictions, fraud_probs, risk_scores, fraud_predictions, original_data):
     """Show overview dashboard with main charts."""
     
-    st.markdown("### 📈 Transaction Overview")
+    st.markdown("###  Transaction Overview")
     
     # Main charts row
     col1, col2 = st.columns(2)
@@ -266,12 +266,12 @@ def show_overview_dashboard(predictions, fraud_probs, risk_scores, fraud_predict
         st.plotly_chart(fig, use_container_width=True)
     
     # Risk level breakdown
-    st.markdown("### 🎯 Risk Level Breakdown")
+    st.markdown("###  Risk Level Breakdown")
     
     # Categorize by risk levels
     low_risk = sum(1 for score in risk_scores if score < 30)
-    medium_risk = sum(1 for score in risk_scores if 30 <= score < 70)
-    high_risk = sum(1 for score in risk_scores if score >= 70)
+    medium_risk = sum(1 for score in risk_scores if 30 < score < 70)
+    high_risk = sum(1 for score in risk_scores if score > 70)
     
     col1, col2, col3 = st.columns(3)
     
@@ -373,7 +373,7 @@ def show_amount_analysis(original_data, fraud_predictions, risk_scores):
 def show_risk_analysis(predictions, fraud_probs, risk_scores, fraud_predictions, original_data):
     """Show detailed risk analysis."""
     
-    st.markdown("### 🎯 Risk Analysis Deep Dive")
+    st.markdown("###  Risk Analysis Deep Dive")
     
     # Risk score statistics
     col1, col2, col3, col4 = st.columns(4)
@@ -421,7 +421,7 @@ def show_risk_analysis(predictions, fraud_probs, risk_scores, fraud_predictions,
         st.plotly_chart(fig, use_container_width=True)
     
     # Risk threshold analysis
-    st.markdown("#### 🎚️ Threshold Sensitivity Analysis")
+    st.markdown("#### Threshold Sensitivity Analysis")
     
     thresholds = np.arange(0.1, 1.0, 0.05)
     threshold_metrics = []
@@ -450,7 +450,7 @@ def show_risk_analysis(predictions, fraud_probs, risk_scores, fraud_predictions,
 def show_pattern_analysis(predictions, fraud_probs, risk_scores, fraud_predictions, original_data, adapted_data):
     """Show pattern analysis and insights."""
     
-    st.markdown("### 📊 Pattern Analysis")
+    st.markdown("###  Pattern Analysis")
     
     # Time-based patterns (if time data available)
     time_cols = [col for col in original_data.columns 
@@ -468,7 +468,7 @@ def show_pattern_analysis(predictions, fraud_probs, risk_scores, fraud_predictio
 def show_temporal_patterns(original_data, time_col, fraud_predictions, risk_scores):
     """Show temporal fraud patterns."""
     
-    st.markdown("#### ⏰ Temporal Patterns")
+    st.markdown("#### Temporal Patterns")
     
     try:
         # Try to parse the time column
@@ -524,7 +524,7 @@ def show_temporal_patterns(original_data, time_col, fraud_predictions, risk_scor
 def show_feature_importance(predictions):
     """Show feature importance if SHAP data is available."""
     
-    st.markdown("#### 🧠 Feature Importance")
+    st.markdown("####  Feature Importance")
     
     # Check if we have SHAP explanations
     has_shap = any(hasattr(p, 'top_risk_factors') and p.top_risk_factors for p in predictions)
@@ -571,7 +571,7 @@ def show_feature_importance(predictions):
 def show_categorical_patterns(original_data, fraud_predictions, risk_scores):
     """Show categorical variable patterns."""
     
-    st.markdown("#### 📋 Categorical Patterns")
+    st.markdown("####  Categorical Patterns")
     
     # Find categorical columns
     categorical_cols = original_data.select_dtypes(include=['object', 'category']).columns
@@ -651,7 +651,7 @@ def show_performance_metrics(predictions, original_data, adapted_data):
     if hasattr(st.session_state, 'adaptation_result'):
         adaptation_result = st.session_state.adaptation_result
         
-        st.markdown("#### 🔄 Dataset Adaptation Performance")
+        st.markdown("####  Dataset Adaptation Performance")
         
         col1, col2, col3 = st.columns(3)
         
@@ -663,7 +663,7 @@ def show_performance_metrics(predictions, original_data, adapted_data):
             st.metric("Synthetic Features", len(adaptation_result.synthetic_features))
     
     # Prediction confidence analysis
-    st.markdown("#### 🎯 Prediction Confidence")
+    st.markdown("####  Prediction Confidence")
     
     fraud_probs = [p.fraud_probability for p in predictions]
     
@@ -686,10 +686,10 @@ def show_performance_metrics(predictions, original_data, adapted_data):
 def show_deep_dive_analysis(predictions, fraud_probs, risk_scores, original_data):
     """Show deep dive analysis with advanced insights."""
     
-    st.markdown("### 🔍 Deep Dive Analysis")
+    st.markdown("###  Deep Dive Analysis")
     
     # Statistical analysis
-    st.markdown("#### 📈 Statistical Summary")
+    st.markdown("####  Statistical Summary")
     
     stats_df = pd.DataFrame({
         'Metric': ['Mean', 'Median', 'Std Dev', 'Min', 'Max', 'Q1', 'Q3'],
@@ -708,7 +708,7 @@ def show_deep_dive_analysis(predictions, fraud_probs, risk_scores, original_data
     simple_dataframe_fix(stats_df.round(3), use_container_width=True)
     
     # Outlier analysis
-    st.markdown("#### 🎯 Outlier Analysis")
+    st.markdown("####  Outlier Analysis")
     
     # Calculate outliers using IQR method
     q1_risk = np.percentile(risk_scores, 25)
