@@ -237,8 +237,7 @@ def show_welcome_section():
         ### Welcome to the Universal Fraud Detection System! 
         
         This system can analyze **any fraud dataset format** and provide instant, accurate fraud predictions using 
-        state-of-the-art machine learning. Whether you have IEEE competition data, credit card transactions, 
-        bank records, or custom fraud datasets - we've got you covered.
+        state-of-the-art machine learning. 
         
         **Get started by:**
         1. Navigate to **Upload & Analyze** to process your dataset
@@ -249,7 +248,7 @@ def show_welcome_section():
     
     with col2:
         # System status check
-        st.markdown("#### 🔧 System Status")
+        st.markdown("#### System Status")
         
         try:
             # Check ML pipeline
@@ -284,7 +283,6 @@ def show_features_overview():
             <h3>Universal Compatibility</h3>
             <p><strong>Works with any fraud dataset:</strong></p>
             <ul>
-                <li>IEEE Competition Format</li>
                 <li>Credit Card (V1-V28)</li>
                 <li>Bank Transactions</li>
                 <li>Generic Fraud Data</li>
