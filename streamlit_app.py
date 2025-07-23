@@ -230,7 +230,7 @@ def main():
 def show_welcome_section():
     """Display welcome message and system status."""
     
-    col1, col2 = st.columns([3, 1])
+    col1, col2= st.columns([3, 1])
     
     with col1:
         st.markdown("""
@@ -245,30 +245,6 @@ def show_welcome_section():
         3. Explore patterns in **Geographic Analysis**
         4. Export findings via **Reports & Export**
         """)
-    
-    with col2:
-        # System status check
-        st.markdown("#### System Status")
-        
-        try:
-            # Check ML pipeline
-            from app.ml.dataset_adapter import SmartDatasetAdapter
-            from app.ml.preprocessing_advanced import AdvancedFeatureEngineer
-            st.markdown("**Dataset Adapter**: Ready")
-            st.markdown("**Feature Engineering**: Ready") 
-            
-            # Check if model exists
-            model_path = Path("models/saved_models")
-            if model_path.exists():
-                st.markdown("**ML Model**: Loaded")
-            else:
-                st.markdown("⚠️ **ML Model**: Not found")
-                
-            st.markdown("**System Status**: Operational")
-            
-        except ImportError as e:
-            st.markdown("**System Status**: Configuration needed")
-            st.markdown(f"Missing: {e}")
 
 def show_features_overview():
     """Display key features of the system."""
