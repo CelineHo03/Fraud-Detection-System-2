@@ -88,11 +88,11 @@ st.set_page_config(
         A production-ready fraud detection system powered by advanced machine learning.
         
         **Key Features:**
-        - 🔍 Universal dataset compatibility (IEEE, Credit Card, Bank, Generic)
-        - 🧠 Advanced ML with 263+ engineered features  
-        - ⚡ Real-time predictions with explainability
-        - 🌍 Geographic fraud pattern analysis
-        - 📊 Comprehensive analytics dashboard
+        - Universal dataset compatibility (IEEE, Credit Card, Bank, Generic)
+        - Advanced ML with 263+ engineered features  
+        - Real-time predictions with explainability
+        - Geographic fraud pattern analysis
+        - Comprehensive analytics dashboard
         
         Built with XGBoost, Streamlit, and industry best practices.
         """
@@ -210,7 +210,7 @@ def main():
     # Main header
     st.markdown("""
     <div class="main-header">
-        <h1>🔍 Universal Fraud Detection System</h1>
+        <h1>Universal Fraud Detection System</h1>
         <p>Advanced ML-powered fraud detection with universal dataset compatibility</p>
     </div>
     """, unsafe_allow_html=True)
@@ -234,17 +234,17 @@ def show_welcome_section():
     
     with col1:
         st.markdown("""
-        ### Welcome to the Universal Fraud Detection System! 👋
+        ### Welcome to the Universal Fraud Detection System! 
         
         This system can analyze **any fraud dataset format** and provide instant, accurate fraud predictions using 
         state-of-the-art machine learning. Whether you have IEEE competition data, credit card transactions, 
         bank records, or custom fraud datasets - we've got you covered.
         
         **Get started by:**
-        1. 📁 Navigate to **Upload & Analyze** to process your dataset
-        2. 📊 View results in the **Analytics Dashboard**  
-        3. 🌍 Explore patterns in **Geographic Analysis**
-        4. 📋 Export findings via **Reports & Export**
+        1. Navigate to **Upload & Analyze** to process your dataset
+        2. View results in the **Analytics Dashboard**  
+        3. Explore patterns in **Geographic Analysis**
+        4. Export findings via **Reports & Export**
         """)
     
     with col2:
@@ -255,33 +255,33 @@ def show_welcome_section():
             # Check ML pipeline
             from app.ml.dataset_adapter import SmartDatasetAdapter
             from app.ml.preprocessing_advanced import AdvancedFeatureEngineer
-            st.markdown("✅ **Dataset Adapter**: Ready")
-            st.markdown("✅ **Feature Engineering**: Ready") 
+            st.markdown("**Dataset Adapter**: Ready")
+            st.markdown("**Feature Engineering**: Ready") 
             
             # Check if model exists
             model_path = Path("models/saved_models")
             if model_path.exists():
-                st.markdown("✅ **ML Model**: Loaded")
+                st.markdown("**ML Model**: Loaded")
             else:
                 st.markdown("⚠️ **ML Model**: Not found")
                 
-            st.markdown("✅ **System Status**: Operational")
+            st.markdown("**System Status**: Operational")
             
         except ImportError as e:
-            st.markdown("❌ **System Status**: Configuration needed")
+            st.markdown("**System Status**: Configuration needed")
             st.markdown(f"Missing: {e}")
 
 def show_features_overview():
     """Display key features of the system."""
     
-    st.markdown("### 🚀 Key Features")
+    st.markdown("### Key Features")
     
     col1, col2, col3 = st.columns(3)
     
     with col1:
         st.markdown("""
         <div class="feature-card">
-            <h3>🔄 Universal Compatibility</h3>
+            <h3>Universal Compatibility</h3>
             <p><strong>Works with any fraud dataset:</strong></p>
             <ul>
                 <li>IEEE Competition Format</li>
@@ -297,7 +297,7 @@ def show_features_overview():
     with col2:
         st.markdown("""
         <div class="feature-card">
-            <h3>🧠 Advanced ML Pipeline</h3>
+            <h3>Advanced ML Pipeline</h3>
             <p><strong>Competition-winning approach:</strong></p>
             <ul>
                 <li>263+ Engineered Features</li>
@@ -313,7 +313,7 @@ def show_features_overview():
     with col3:
         st.markdown("""
         <div class="feature-card">
-            <h3>📊 Comprehensive Analytics</h3>
+            <h3>Comprehensive Analytics</h3>
             <p><strong>Professional insights:</strong></p>
             <ul>
                 <li>Interactive Dashboards</li>
@@ -329,12 +329,12 @@ def show_features_overview():
 def show_quick_start():
     """Show quick start guide."""
     
-    st.markdown("### 🚀 Quick Start Guide")
+    st.markdown("### Quick Start Guide")
     
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
-        if st.button("📁 Upload Dataset", use_container_width=True):
+        if st.button("Upload Dataset", use_container_width=True):
             st.switch_page("pages/1_📁_Upload_and_Analyze.py")
         st.markdown("""
         <small>
@@ -343,7 +343,7 @@ def show_quick_start():
         """, unsafe_allow_html=True)
     
     with col2:
-        if st.button("📊 View Dashboard", use_container_width=True):
+        if st.button("View Dashboard", use_container_width=True):
             st.switch_page("pages/2_📊_Analytics_Dashboard.py")
         st.markdown("""
         <small>
@@ -352,7 +352,7 @@ def show_quick_start():
         """, unsafe_allow_html=True)
     
     with col3:
-        if st.button("🌍 Geographic Analysis", use_container_width=True):
+        if st.button("Geographic Analysis", use_container_width=True):
             st.switch_page("pages/3_🌍_Geographic_Analysis.py")
         st.markdown("""
         <small>
@@ -361,7 +361,7 @@ def show_quick_start():
         """, unsafe_allow_html=True)
     
     with col4:
-        if st.button("📋 Sample Data", use_container_width=True):
+        if st.button("Sample Data", use_container_width=True):
             show_sample_data_modal()
         st.markdown("""
         <small>
@@ -372,7 +372,7 @@ def show_quick_start():
 def show_sample_data_modal():
     """Show sample datasets information."""
     
-    st.markdown("### 📋 Sample Datasets")
+    st.markdown("### Sample Datasets")
     
     sample_datasets = {
         "IEEE Competition Data": {
@@ -402,7 +402,7 @@ def show_sample_data_modal():
     }
     
     for name, info in sample_datasets.items():
-        with st.expander(f"📁 {name}"):
+        with st.expander(f"{name}"):
             col1, col2 = st.columns(2)
             with col1:
                 st.write(f"**Description:** {info['description']}")
@@ -417,7 +417,7 @@ def show_sample_data_modal():
 def show_system_stats():
     """Show system performance statistics."""
     
-    st.markdown("### 📈 System Performance")
+    st.markdown("### System Performance")
     
     col1, col2, col3, col4 = st.columns(4)
     
@@ -457,7 +457,7 @@ def show_sidebar_info():
     """Show information in sidebar."""
     
     with st.sidebar:
-        st.markdown("### 🔍 About This System")
+        st.markdown("### About This System")
         
         st.info("""
         **Universal Fraud Detection System**
@@ -465,7 +465,7 @@ def show_sidebar_info():
         A production-ready ML system that can analyze any fraud dataset format and provide instant, accurate predictions.
         """)
         
-        st.markdown("### 📊 Current Session")
+        st.markdown("### Current Session")
         
         # Session statistics (if any data has been processed)
         if 'processed_datasets' not in st.session_state:
@@ -477,13 +477,13 @@ def show_sidebar_info():
         st.metric("Datasets Processed", st.session_state.processed_datasets)
         st.metric("Predictions Made", st.session_state.total_predictions)
         
-        st.markdown("### 🔗 Quick Links")
+        st.markdown("### Quick Links")
         
         st.markdown("""
-        - [📁 Upload Data](pages/1_📁_Upload_and_Analyze.py)
-        - [📊 Analytics](pages/2_📊_Analytics_Dashboard.py) 
-        - [🌍 Geographic](pages/3_🌍_Geographic_Analysis.py)
-        - [📋 Reports](pages/4_📋_Export_Reports.py)
+        - [Upload Data](pages/1_📁_Upload_and_Analyze.py)
+        - [Analytics](pages/2_📊_Analytics_Dashboard.py) 
+        - [Geographic](pages/3_🌍_Geographic_Analysis.py)
+        - [Reports](pages/4_📋_Export_Reports.py)
         """)
         
         st.markdown("### ⚙️ System Info")
