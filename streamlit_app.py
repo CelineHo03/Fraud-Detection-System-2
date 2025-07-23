@@ -475,16 +475,7 @@ def show_sidebar_info():
         st.metric("Datasets Processed", st.session_state.processed_datasets)
         st.metric("Predictions Made", st.session_state.total_predictions)
         
-        st.markdown("### Quick Links")
-        
-        st.markdown("""
-        - [Upload Data](pages/1_📁_Upload_and_Analyze.py)
-        - [Analytics](pages/2_📊_Analytics_Dashboard.py) 
-        - [Geographic](pages/3_🌍_Geographic_Analysis.py)
-        - [Reports](pages/4_📋_Export_Reports.py)
-        """)
-        
-        st.markdown("### ⚙️ System Info")
+        st.markdown("### System Info")
         
         st.markdown(f"""
         **Version:** 2.0.0  
