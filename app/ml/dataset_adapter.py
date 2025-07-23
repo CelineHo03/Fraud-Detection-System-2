@@ -345,39 +345,144 @@ class SmartDatasetAdapter:
             Tuple of (mapped_name, confidence_score)
         """
         col_lower = column_name.lower().strip()
-        
-        # Remove common prefixes/suffixes and special characters
+    
+        # Block geographic coordinates from any mapping
+        if col_lower in ['lat', 'latitude', 'lon', 'longitude', 'coord']:
+            if self.verbose:
+                print(f"🚫 BLOCKED: '{column_name}' (geographic coordinate)")
+            return None, 0.0
+
         cleaned_col = re.sub(r'[^a-z0-9_]', '', col_lower)
+        
+        # 🔥 IMMEDIATE FIXES for your specific issues:
+        
+        # 1. Geographic columns should NOT map to DeviceType
+        geographic_terms = ['lat', 'latitude', 'lon', 'longitude', 'geo', 'coord']
+        if any(geo_term in cleaned_col for geo_term in geographic_terms):
+            # Map to address fields instead, or don't map at all
+            if 'lat' in cleaned_col:
+                return None, 0.0  # Don't map latitude to anything inappropriate
+            return None, 0.0
+        
+        # 2. Merchant should be treated more carefully
+        if cleaned_col == 'merchant':
+            # Consider if this should map to ProductCD or be left as merchant info
+            # For now, lower confidence to prevent overconfident wrong mapping
+            return 'ProductCD', 0.75  # Reduced confidence
+        
+        # 3. More specific patterns to prevent false positives
+        IMPROVED_PATTERNS = {
+            'TransactionDT': {
+                'patterns': [
+                    'transaction_time', 'transaction_date', 'trans_time', 'trans_date',
+                    'payment_time', 'payment_date', 'unix_time', 'timestamp',
+                    'created_at', 'order_time', 'purchase_time'
+                ],
+                'exclude_if_contains': ['modified', 'updated', 'deleted', 'expired']
+            },
+            
+            'TransactionAmt': {
+                'patterns': [
+                    'transaction_amount', 'payment_amount', 'order_amount', 
+                    'purchase_amount', 'trans_amount', 'amount'
+                ],
+                'exclude_if_contains': ['discount', 'fee', 'tax', 'tip', 'refund']
+            },
+            
+            'TransactionID': {
+                'patterns': [
+                    'transaction_id', 'payment_id', 'order_id', 'trans_id',
+                    'txn_id', 'reference_id'
+                ],
+                'exclude_if_contains': ['user', 'customer', 'merchant', 'product']
+            },
+            
+            'ProductCD': {
+                'patterns': [
+                    'product_code', 'category', 'merchant_category', 
+                    'transaction_type', 'payment_type'
+                ],
+                'exclude_if_contains': ['user', 'customer', 'account']
+            },
+            
+            'DeviceType': {
+                'patterns': [
+                    'device_type', 'platform', 'browser', 'client_type'
+                ],
+                'exclude_if_contains': ['lat', 'lon', 'geo', 'address', 'location']
+            }
+        }
         
         best_match = None
         best_score = 0.0
+
+        # 🔧 VALIDATION: Prevent remaining false positives
+        if best_match and best_score > 0:
+            # Never map geographic terms to device/product fields  
+            if best_match in ['DeviceType', 'DeviceInfo', 'ProductCD']:
+                geo_terms = ['lat', 'lon', 'geo', 'coord', 'location']
+                if any(geo in col_lower for geo in geo_terms):
+                    return None, 0.0
+            
+            # Reduce overconfident scores
+            if best_score >= 0.95 and col_lower in ['merchant', 'category']:
+                best_score = 0.75  # More realistic confidence
         
-        for ieee_col, patterns in self.COLUMN_PATTERNS.items():
-            for pattern in patterns:
-                # Exact match
-                if cleaned_col == pattern.replace(' ', '_'):
-                    return ieee_col, 1.0
-                
-                # Substring match
-                if pattern in cleaned_col or cleaned_col in pattern:
-                    score = len(pattern) / max(len(cleaned_col), len(pattern))
-                    if score > best_score:
-                        best_match = ieee_col
-                        best_score = score
-                
-                # Keyword match
-                keywords = pattern.split('_')
-                if all(keyword in cleaned_col for keyword in keywords):
-                    score = 0.8
-                    if score > best_score:
-                        best_match = ieee_col
-                        best_score = score
-        
-        # Only return matches with reasonable confidence
-        if best_score >= 0.6:
+        # Only return confident matches
+        if best_score >= 0.8:  # Raised threshold
             return best_match, best_score
         
         return None, 0.0
+        
+        for ieee_col, config in IMPROVED_PATTERNS.items():
+            patterns = config['patterns']
+            exclusions = config.get('exclude_if_contains', [])
+            
+            # Skip if contains exclusion terms
+            if any(excl in cleaned_col for excl in exclusions):
+                continue
+                
+            for pattern in patterns:
+                pattern_cleaned = pattern.replace(' ', '_')
+                
+                # Exact match
+                if cleaned_col == pattern_cleaned:
+                    return ieee_col, 1.0
+                
+                # Word boundary match (more restrictive)
+                if self._improved_word_match(cleaned_col, pattern_cleaned):
+                    # Calculate confidence based on specificity
+                    if len(pattern_cleaned) >= 8:  # Long specific patterns
+                        score = 0.95
+                    elif len(pattern_cleaned) >= 5:  # Medium patterns  
+                        score = 0.85
+                    else:  # Short patterns
+                        score = 0.75
+                    
+                    if score > best_score:
+                        best_match = ieee_col
+                        best_score = score
+        
+        # Only return confident matches
+        if best_score >= 0.8:
+            return best_match, best_score
+        
+        return None, 0.0
+
+    def _improved_word_match(self, cleaned_col: str, pattern: str) -> bool:
+        """Improved word matching logic"""
+        col_words = set(cleaned_col.split('_'))
+        pattern_words = set(pattern.split('_'))
+        
+        # All pattern words must be present
+        if not pattern_words.issubset(col_words):
+            return False
+        
+        # Additional check: avoid too-generic matches
+        if len(pattern_words) == 1 and len(list(pattern_words)[0]) < 4:
+            return False  # Avoid single short words
+        
+        return True
     
     def create_synthetic_features(self, df: pd.DataFrame, mappings: List[ColumnMapping]) -> Tuple[pd.DataFrame, List[str]]:
         """

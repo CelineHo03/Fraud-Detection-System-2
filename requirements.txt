@@ -1,57 +1,41 @@
-# Core Streamlit Application
+# Core Streamlit and Web Framework
 streamlit>=1.28.0
 streamlit-folium>=0.15.0
+streamlit-aggrid>=0.3.4
 
-# Data Science & Machine Learning Core
+# Machine Learning and Data Science
 pandas>=2.1.0
 numpy>=1.24.0
 scikit-learn>=1.3.0
-xgboost>=2.0.0
+xgboost>=1.7.0
 joblib>=1.3.0
+
+# Visualization
+plotly>=5.17.0
+seaborn>=0.12.0
+matplotlib>=3.7.0
+folium>=0.14.0
 
 # Model Explainability
 shap>=0.43.0
 
-# Visualization Libraries
-plotly>=5.17.0
-folium>=0.14.0
-seaborn>=0.13.0
-matplotlib>=3.7.0
-
-# File Processing
+# Data Processing
 openpyxl>=3.1.0
 xlrd>=2.0.0
-xlsxwriter>=3.1.0
+fastparquet>=0.8.0
 
-# Configuration & Environment
-pyyaml>=6.0
+# Utilities
 python-dotenv>=1.0.0
+pydantic>=2.0.0
+loguru>=0.7.0
+tqdm>=4.65.0
 
-# Utility Libraries
-tqdm>=4.66.0
-requests>=2.31.0
+# Performance and Caching
+redis>=4.5.0
+psutil>=5.9.0
 
-# Development & Testing (Optional)
+# Development and Testing
 pytest>=7.4.0
 pytest-cov>=4.1.0
 black>=23.0.0
 flake8>=6.0.0
-
-# Performance & Optimization
-numba>=0.58.0
-bottleneck>=1.3.0
-
-# Geographic & Mapping
-geopandas>=0.14.0
-geopy>=2.4.0
-
-# Additional Streamlit Components
-streamlit-aggrid>=0.3.0
-streamlit-option-menu>=0.3.0
-streamlit-lottie>=0.0.5
-
-# Data Validation
-pydantic>=2.4.0
-
-# Progress Bars and UI Enhancement
-stqdm>=0.0.5

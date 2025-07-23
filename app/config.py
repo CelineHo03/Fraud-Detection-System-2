@@ -24,9 +24,9 @@ class ModelConfig:
     model_path: str = str(MODELS_DIR / "saved_models")
     
     # XGBoost parameters
-    n_estimators: int = 100  # Reduced for faster testing
-    max_depth: int = 6
-    learning_rate: float = 0.1
+    n_estimators: int = 2000 # Reduced for faster testing
+    max_depth: int = 8
+    learning_rate: float = 0.5
     subsample: float = 0.8
     colsample_bytree: float = 0.8
     

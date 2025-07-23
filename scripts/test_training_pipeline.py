@@ -60,7 +60,7 @@ def test_feature_engineering(train_df: pd.DataFrame, test_df: pd.DataFrame):
     
     try:
         # Test with a small sample first
-        sample_size = min(1000, len(train_df))
+        sample_size = min(50000, len(train_df))
         train_sample = train_df.head(sample_size)
         test_sample = test_df.head(sample_size)
         
@@ -115,7 +115,7 @@ def test_training_small_sample(train_df: pd.DataFrame, test_df: pd.DataFrame):
             train_df=train_sample,
             test_df=test_sample,
             target_col='isFraud',
-            n_splits=3,  # Reduced for faster testing
+            n_splits=6,  # Reduced for faster testing
             verbose=True
         )
         

@@ -601,7 +601,7 @@ def load_model():
                 # Force some fraud cases for demo purposes
                 fraud_indices = np.random.choice(
                     range(total_transactions), 
-                    size=max(1, total_transactions // 20),  # 5% fraud rate
+                    size=max(1, total_transactions // 30),  # 5% fraud rate
                     replace=False
                 )
                 
