@@ -59,7 +59,7 @@ def simple_dataframe_fix(df, max_rows=500, **kwargs):
         original_dataframe(display_df, **kwargs)  # ✅ FIXED: Use original_dataframe
         
         if len(df) > max_rows:
-            st.info(f"📋 Showing first {max_rows:,} of {len(df):,} rows")
+            st.info(f"Showing first {max_rows:,} of {len(df):,} rows")
             
     except Exception as e:
         # Final fallback - create a simple text representation
@@ -72,7 +72,7 @@ def simple_dataframe_fix(df, max_rows=500, **kwargs):
                 fallback_df[col] = fallback_df[col].astype(str)
             # ALSO FIX THIS: Use original function here too
             original_dataframe(fallback_df)  # ✅ FIXED: Use original_dataframe
-            st.info(f"📋 Simplified view (3 of {len(df):,} rows)")
+            st.info(f"Simplified view (3 of {len(df):,} rows)")
         except Exception:
             st.error("Unable to display data - please check data format")
 
@@ -111,8 +111,8 @@ def main():
     show_dashboard_header(predictions, fraud_probs, risk_scores, fraud_predictions, dataset_name)
     
     # Main dashboard content
-    tab1, tab2, tab3, tab4, tab5 = st.tabs([
-        " Overview", " Risk Analysis",  "Patterns", "⚡ Performance", " Deep Dive"
+    tab1, tab2, tab3, tab4 = st.tabs([
+        " Overview", " Risk Analysis",  "Patterns", "Performance"
     ])
     
     with tab1:
@@ -126,9 +126,6 @@ def main():
     
     with tab4:
         show_performance_metrics(predictions, original_data, adapted_data)
-    
-    with tab5:
-        show_deep_dive_analysis(predictions, fraud_probs, risk_scores, original_data)
 
 def check_data_availability():
     """Check if analysis data is available."""
@@ -277,7 +274,7 @@ def show_overview_dashboard(predictions, fraud_probs, risk_scores, fraud_predict
     with col1:
         st.markdown(f"""
         <div style="background: #d4edda; padding: 1rem; border-radius: 8px; border-left: 4px solid #28a745;">
-            <h4 style="color: #155724; margin: 0;">🟢 Low Risk (0-29)</h4>
+            <h4 style="color: #155724; margin: 0;"> Low Risk (0-29)</h4>
             <h2 style="color: #155724; margin: 0.5rem 0;">{low_risk:,}</h2>
             <p style="color: #155724; margin: 0;">{low_risk/len(risk_scores):.1%} of transactions</p>
         </div>
@@ -286,7 +283,7 @@ def show_overview_dashboard(predictions, fraud_probs, risk_scores, fraud_predict
     with col2:
         st.markdown(f"""
         <div style="background: #fff3cd; padding: 1rem; border-radius: 8px; border-left: 4px solid #ffc107;">
-            <h4 style="color: #856404; margin: 0;">🟡 Medium Risk (30-69)</h4>
+            <h4 style="color: #856404; margin: 0;"> Medium Risk (30-69)</h4>
             <h2 style="color: #856404; margin: 0.5rem 0;">{medium_risk:,}</h2>
             <p style="color: #856404; margin: 0;">{medium_risk/len(risk_scores):.1%} of transactions</p>
         </div>
@@ -295,7 +292,7 @@ def show_overview_dashboard(predictions, fraud_probs, risk_scores, fraud_predict
     with col3:
         st.markdown(f"""
         <div style="background: #f8d7da; padding: 1rem; border-radius: 8px; border-left: 4px solid #dc3545;">
-            <h4 style="color: #721c24; margin: 0;">🔴 High Risk (70+)</h4>
+            <h4 style="color: #721c24; margin: 0;"> High Risk (70+)</h4>
             <h2 style="color: #721c24; margin: 0.5rem 0;">{high_risk:,}</h2>
             <p style="color: #721c24; margin: 0;">{high_risk/len(risk_scores):.1%} of transactions</p>
         </div>
@@ -308,7 +305,7 @@ def show_overview_dashboard(predictions, fraud_probs, risk_scores, fraud_predict
 def show_amount_analysis(original_data, fraud_predictions, risk_scores):
     """Show transaction amount analysis."""
     
-    st.markdown("### 💰 Transaction Amount Analysis")
+    st.markdown("### Transaction Amount Analysis")
     
     # Find amount column
     amount_col = None
@@ -631,7 +628,7 @@ def show_categorical_patterns(original_data, fraud_predictions, risk_scores):
 def show_performance_metrics(predictions, original_data, adapted_data):
     """Show model performance metrics."""
     
-    st.markdown("### ⚡ Model Performance")
+    st.markdown("### Model Performance")
     
     # Processing statistics
     col1, col2, col3, col4 = st.columns(4)
@@ -681,79 +678,6 @@ def show_performance_metrics(predictions, original_data, adapted_data):
         title="Prediction Confidence Distribution"
     )
     st.plotly_chart(fig, use_container_width=True)
-
-def show_deep_dive_analysis(predictions, fraud_probs, risk_scores, original_data):
-    """Show deep dive analysis with advanced insights."""
-    
-    st.markdown("###  Deep Dive Analysis")
-    
-    # Statistical analysis
-    st.markdown("####  Statistical Summary")
-    
-    stats_df = pd.DataFrame({
-        'Metric': ['Mean', 'Median', 'Std Dev', 'Min', 'Max', 'Q1', 'Q3'],
-        'Fraud Probability': [
-            np.mean(fraud_probs), np.median(fraud_probs), np.std(fraud_probs),
-            np.min(fraud_probs), np.max(fraud_probs), 
-            np.percentile(fraud_probs, 25), np.percentile(fraud_probs, 75)
-        ],
-        'Risk Score': [
-            np.mean(risk_scores), np.median(risk_scores), np.std(risk_scores),
-            np.min(risk_scores), np.max(risk_scores),
-            np.percentile(risk_scores, 25), np.percentile(risk_scores, 75)
-        ]
-    })
-    
-    simple_dataframe_fix(stats_df.round(3), use_container_width=True)
-    
-    # Outlier analysis
-    st.markdown("####  Outlier Analysis")
-    
-    # Calculate outliers using IQR method
-    q1_risk = np.percentile(risk_scores, 25)
-    q3_risk = np.percentile(risk_scores, 75)
-    iqr_risk = q3_risk - q1_risk
-    lower_bound = q1_risk - 1.5 * iqr_risk
-    upper_bound = q3_risk + 1.5 * iqr_risk
-    
-    outliers = [i for i, score in enumerate(risk_scores) if score < lower_bound or score > upper_bound]
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.metric("Total Outliers", len(outliers))
-        st.metric("Outlier Percentage", f"{len(outliers)/len(risk_scores):.1%}")
-    
-    with col2:
-        if len(outliers) > 0:
-            outlier_data = original_data.iloc[outliers].copy()
-            outlier_data['Risk_Score'] = [risk_scores[i] for i in outliers]
-            outlier_data['Fraud_Probability'] = [fraud_probs[i] for i in outliers]
-            
-            if st.checkbox("Show outlier transactions"):
-                simple_dataframe_fix(outlier_data.head(10), use_container_width=True)
-    
-    # Correlation matrix (if numerical data available)
-    numerical_cols = original_data.select_dtypes(include=[np.number]).columns
-    if len(numerical_cols) > 1:
-        st.markdown("#### 🔗 Feature Correlations")
-        
-        # Create correlation matrix with predictions
-        corr_data = original_data[numerical_cols].copy()
-        corr_data['Risk_Score'] = risk_scores
-        corr_data['Fraud_Probability'] = fraud_probs
-        
-        # Limit to top correlated features for readability
-        correlation_matrix = corr_data.corr()
-        
-        # Plot correlation heatmap
-        fig = px.imshow(
-            correlation_matrix,
-            title="Feature Correlation Heatmap",
-            color_continuous_scale="RdBu",
-            aspect="auto"
-        )
-        st.plotly_chart(fig, use_container_width=True)
 
 if __name__ == "__main__":
     main()
