@@ -522,7 +522,6 @@ def create_city_heatmap(city_stats, metric):
         ),
         coloraxis_colorbar=dict(
             title="Risk Score",
-            titleside="right",
             tickmode="linear",
             tick0=0,
             dtick=10,

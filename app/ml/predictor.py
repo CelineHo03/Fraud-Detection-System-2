@@ -363,6 +363,8 @@ class AdvancedPredictor:
         else:
             return "low"
     
+    
+    
     def _get_top_risk_factors(self, shap_values: Dict[str, float], feature_values: pd.Series, top_n: int = 5) -> List[Dict[str, Any]]:
         """Get top risk factors from SHAP values."""
         # Sort SHAP values by absolute magnitude

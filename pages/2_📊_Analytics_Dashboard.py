@@ -82,7 +82,6 @@ st.dataframe = simple_dataframe_fix
 # Page configuration
 st.set_page_config(
     page_title="Analytics Dashboard - Fraud Detection",
-    page_icon="📊",
     layout="wide"
 )
 
